@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CCC Fahrplan - Bahnhofstafel</title>
+    <title>GPN24 Fahrplan - Bahnhofstafel</title>
     <meta name="author" content="Based on c3-fahrplan-druck by Anton P. Braun and Felix Divo">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -18,11 +18,11 @@
             <span id="currentTime"></span>
         </div>
         <div class="titleBarRight">
-            <span style="font-size: 24px;">&lt;&lt;39C3</span>
+            <span style="font-size: 24px;">&lt;&lt;GPN24.de</span>
         </div>
         <div class="titleBarCenter">
             <span class="eventType">Abfahrt</span>
-            <span class="stationName">Chaos Communication Congress</span>
+            <span class="stationName">24. Gulaschprogrammiernacht</span>
         </div>
         <div class="titleBarClear"></div>
     </div>
@@ -58,22 +58,25 @@
 
     <div id="additionalTextContainer">
         <div class="additionalText" id="footerText">
-            Chaos Communication Congress - 27.12.2025 bis 30.12.2025
+            24. Gulaschprogrammiernacht - 04.06.2026 bis 07.06.2026
         </div>
     </div>
 
     <script>
         (async () => {
             // Event-specific configuration
-            const scheduleUrl = 'https://api.events.ccc.de/congress/2025/schedule.json';
+            const scheduleUrl = 'https://cfp.gulas.ch/gpn24/schedule/export/schedule.json';
             const trackMap = {
-                'Art & Beauty': 'ART',
-                'CCC & Community': 'CCC',
+                'Politics, Society and Ethics': 'POL',
+                'Entropia / CCC': 'CCC',
                 'Entertainment': 'FUN',
-                'Ethics, Society & Politics': 'ESP',
-                'Hardware': 'HARD',
+                'Software and Infrastructure': 'SOFT',
+                'Hardware and Making': 'HARD',
                 'Science': 'SCI',
-                'Security': 'SEC',
+                'Art, Culture and Games' : 'ART',
+                'Mobility, Energy and Transformation' : 'TRANS',
+                'Meetup' : 'MEET',
+                'Cyber Security': 'SEC',
                 'DJ-Set': 'DJ',
                 'Live Performance': 'LP',
                 null: 'NAT',
@@ -82,15 +85,16 @@
 
             // Room abbreviations
             const roomAbbrevMap = {
-                'One': '1',
-                'Fuse': 'F',
-                'Ground': 'G',
-                'Zero': 'Z',
-                'SoS Saal 6': '6',
-                'House of Tea': 'HoT',
-                'Chaos Computer Music Club': 'CCMC',
-                'Chill Floor': 'CF',
-                'Komonin': 'KOM'
+                'ZKM Medientheater': 'MEDIA',
+                'ZKM Kubus': 'CUBE',
+                'ZKM Vortragssaal': 'LECT',
+                'HfG Blauer Salon': 'BLUE',
+                'HfG Workshopraum 112': '112',
+                'HfG Workshopraum 115': '115',
+                'ZKM Foyer': 'ZKM',
+                'ZKM "Musikbalkon"': 'BALC',
+                'HfG Hackcenter': 'HACK',
+                'Außen Südwiese / "Lavawiese' : 'OUT'
             };
             const roomAbbrevPartial = {
                 'Stonewall IO': 'SIO',
@@ -164,14 +168,6 @@
                 return roomName.substring(0, 4);
             };
 
-            // Random delay generator (for fun!)
-            const getRandomDelay = () => {
-                if (Math.random() > 0.30) return ''; // ~30% chance of delay (every 3rd-4th entry)
-                const delays = [5, 10, 15, 20, 25, 30, 45, 60];
-                const delay = delays[Math.floor(Math.random() * delays.length)];
-                return `<span class="tripMessage">ca. ${delay} Minuten später</span>`;
-            };
-
             // Render one departure row
             const renderRow = (talk) => {
                 const trackCode = trackMap[talk.track] || 'NAT';
@@ -180,7 +176,6 @@
                 const roomAbbrev = abbreviateRoom(talk.roomName);
                 const duration = toMinutes(talk.duration);
                 const endTime = toHours(toMinutes(talk.start) + duration);
-                const delayMsg = getRandomDelay();
 
                 return `
                 <tr>
@@ -190,7 +185,7 @@
                     </td>
                     <td>
                         <span class="to_from"><a href="${talk.url}" target="_blank">${talk.title}</a></span>
-                        ${delayMsg}
+
                     </td>
                     <td>
                         <span class="path">${speaker}</span>
