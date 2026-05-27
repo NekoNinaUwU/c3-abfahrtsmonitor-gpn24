@@ -1,12 +1,16 @@
-# C3 Abfahrtsmonitor
+# GPN24 Abfahrtsmonitor
 
-CCC Congress live schedule displayed in the classic German train station departure display style.
+GPN24 live schedule displayed in the classic German train station departure display style.
+
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Webapp-blue)](https://nekoninauwu.github.io/c3-abfahrtsmonitor-gpn24/)
 
 <img width="1899" height="823" alt="CleanShot 2026-01-23 at 20 30 31" src="https://github.com/user-attachments/assets/79466644-d8b0-4c1b-979d-7bf29477aa0b" />
 
 ## Usage
 
 Open `index.html` directly in a browser. No build steps required.
+
+Alternatively open the GItHub Pages deployment of this repo [here](https://nekoninauwu.github.io/c3-abfahrtsmonitor-gpn24/)
 
 ### URL Parameters
 
@@ -18,7 +22,7 @@ Parameters can be combined: `?only-day=1&only-track=SEC`
 
 ## Data Mapping
 
-| Bahnhofstafel | CCC Schedule |
+| Bahnhofstafel | GPN24 Schedule |
 |---------------|--------------|
 | Zeit (Time) | Talk start time |
 | Zugnummer (Train ID) | Track code + talk ID (e.g., "SCI 12345") |
@@ -36,4 +40,4 @@ Uses the classic blue/yellow train station departure board colors:
 
 ## Data Source
 
-Fetches live from: `https://api.events.ccc.de/congress/2025/schedule.json`
+Fetches live from: `https://cfp.gulas.ch/gpn24/schedule/export/schedule.json`
