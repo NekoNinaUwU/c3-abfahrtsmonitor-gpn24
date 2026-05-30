@@ -167,6 +167,14 @@
                 if (roomName.startsWith('Kidspace')) return 'KID';
                 return roomName.substring(0, 4);
             };
+            
+            // Show special messages like reservations compulsory
+            const getNoticeMsg = (talk) => {
+                if (talk.abstract.includes("Reservierung nötig / Reservation needed")) {
+                    return `<span class="tripMessage" >Reservierungspflicht/Reservation compulsory</span>`;
+                }
+                else return '';
+            };
 
             // Render one departure row
             const renderRow = (talk) => {
@@ -176,6 +184,7 @@
                 const roomAbbrev = abbreviateRoom(talk.roomName);
                 const duration = toMinutes(talk.duration);
                 const endTime = toHours(toMinutes(talk.start) + duration);
+                const noticeMsg = getNoticeMsg(talk);
 
                 return `
                 <tr>
@@ -185,7 +194,7 @@
                     </td>
                     <td>
                         <span class="to_from"><a href="${talk.url}" target="_blank">${talk.title}</a></span>
-
+                        ${noticeMsg}
                     </td>
                     <td>
                         <span class="path">${speaker}</span>
