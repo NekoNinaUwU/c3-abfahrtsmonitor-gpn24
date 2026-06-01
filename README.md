@@ -10,7 +10,7 @@ GPN24 live schedule displayed in the classic German train station departure disp
 
 Open `index.html` directly in a browser. No build steps required.
 
-Alternatively open the GItHub Pages deployment of this repo [here](https://nekoninauwu.github.io/c3-abfahrtsmonitor-gpn24/)
+Alternatively open the GitHub Pages deployment of this repo [here](https://nekoninauwu.github.io/c3-abfahrtsmonitor-gpn24/)
 
 ### URL Parameters
 
