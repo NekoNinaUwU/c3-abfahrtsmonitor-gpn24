@@ -170,9 +170,19 @@
             
             // Show special messages like reservations compulsory
             const getNoticeMsg = (talk) => {
+                noticeMsgArray = [];
                 if (talk.abstract.includes("Reservierung nötig / Reservation needed")) {
-                    return `<span class="tripMessage" >Reservierungspflicht/Reservation compulsory</span>`;
+                    noticeMsgArray.push(`Reservierungspflicht/Reservation compulsory`);
                 }
+
+                if (talk.do_not_record) {
+                    noticeMsgArray.push(`Wird nicht aufgezeichnet/Will not be recorded`);
+                }
+                
+                if (noticeMsgArray.length > 0) {
+                    return `<div class="tripMessage">${noticeMsgArray.join(' | ')}</div>`;
+                }
+
                 else return '';
             };
 
