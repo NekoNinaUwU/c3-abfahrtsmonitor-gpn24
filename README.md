@@ -15,8 +15,8 @@ Alternatively open the GitHub Pages deployment of this repo [here](https://nekon
 ### URL Parameters
 
 - `?only-day=<n>` - Show single day (0-indexed)
-- `?only-track=<name>` - Filter by track (e.g., `SCI`, `Security`)
-- `?only-room=<room>` - Filter by room (substring match)
+- `?only-track=<name>` - Filter by track (e.g., `SCI`, `Security`), an array is also possible seperated by colons `?only-track=SEC,WOC,MISC?`
+- `?only-room=<room>` - Filter by room (substring match), an array is also possible seperated by colons `?only-room=106,112,116,BLUE`
 
 Parameters can be combined: `?only-day=1&only-track=SEC`
 
@@ -40,4 +40,4 @@ Uses the classic blue/yellow train station departure board colors:
 
 ## Data Source
 
-Fetches live from: `https://cfp.gulas.ch/gpn24/schedule/export/schedule.json`
+Fetches live from: `https://cfp.gulas.ch/merged/GPN24/everything.schedule.json`

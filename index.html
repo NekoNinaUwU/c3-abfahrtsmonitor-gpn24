@@ -67,7 +67,7 @@
     <script>
         (async () => {
             // Event-specific configuration
-            const scheduleUrl = 'https://cfp.gulas.ch/gpn24/schedule/export/schedule.json';
+            const scheduleUrl = 'https://cfp.gulas.ch/merged/GPN24/everything.schedule.json';
             const trackMap = {
                 'Politics, Society and Ethics': 'POL',
                 'Entropia / CCC': 'CCC',
@@ -79,10 +79,14 @@
                 'Mobility, Energy and Transformation' : 'TRANS',
                 'Meetup' : 'MEET',
                 'Cyber Security': 'SEC',
-                'DJ-Set': 'DJ',
-                'Live Performance': 'LP',
-                null: 'NAT',
-                undefined: 'NAT',
+
+                'Lounge Musik': 'MUS',
+                'Lounge Visuals': 'VIS',
+                'WOC-Stage': 'WOC',
+
+
+                null: 'MISC',
+                undefined: 'MISC',
             };
 
             // Room abbreviations
@@ -91,12 +95,28 @@
                 'ZKM Kubus': 'CUBE',
                 'ZKM Vortragssaal': 'LECT',
                 'HfG Blauer Salon': 'BLUE',
+                'HfG Workshopraum 106': '106',
                 'HfG Workshopraum 112': '112',
                 'HfG Workshopraum 115': '115',
                 'ZKM Foyer': 'ZKM',
                 'ZKM "Musikbalkon"': 'BALC',
                 'HfG Hackcenter': 'HACK',
-                'Außen Südwiese / "Lavawiese' : 'OUT'
+                'Außen Südwiese / "Lavawiese' : 'OUT',
+                
+                'Lounge [ Music ]': 'MUS',
+                'Lounge [ Visuals ]': 'VIS',
+                'WOC-Stage [ Music ]': 'WOC',
+
+                'Kitchen Option 1': 'FOOD1',
+                'Kitchen Option 2': 'FOOD2',
+                'Kitchen Option 3': 'FOOD3',
+
+                'Premium Kaffee & Cocktailbar': 'BAR',
+
+                'Merchdesk': 'MERCH',
+
+                'Waffelstand Outdoor': 'WAFF',
+
             };
             const roomAbbrevPartial = {
                 'Stonewall IO': 'SIO',
@@ -108,8 +128,14 @@
             // URL parameter parsing
             const params = new URLSearchParams(location.search);
             const onlyDayParam = params.get('only-day');
-            const onlyTrackParam = params.get('only-track');
-            const onlyRoomParam = params.get('only-room');
+            const onlyTrackTargets = params.getAll('only-track')
+                .flatMap((value) => value.split(','))
+                .map((value) => value.trim().toLowerCase())
+                .filter(Boolean);
+            const onlyRoomTargets = params.getAll('only-room')
+                .flatMap((value) => value.split(','))
+                .map((value) => value.trim().toLowerCase())
+                .filter(Boolean);
             const isSingleDay = onlyDayParam !== null;
             const selectedDay = parseInt(onlyDayParam ?? '1', 10);
 
@@ -127,15 +153,16 @@
             setInterval(updateClock, 1000);
 
             // Filter predicates
-            const trackTarget = onlyTrackParam?.toLowerCase();
-            const roomTarget = onlyRoomParam?.toLowerCase();
             const passesFilters = (talk, roomName) => {
-                if (trackTarget) {
+                if (onlyTrackTargets.length > 0) {
                     const trackRaw = (talk.track || '').toString().toLowerCase();
                     const trackCode = (trackMap[talk.track] || '').toLowerCase();
-                    if (trackRaw !== trackTarget && trackCode !== trackTarget) return false;
+                    if (!onlyTrackTargets.some((trackTarget) => trackRaw === trackTarget || trackCode === trackTarget)) return false;
                 }
-                if (roomTarget && !roomName.toLowerCase().match(new RegExp(roomTarget))) return false;
+                if (onlyRoomTargets.length > 0) {
+                    const roomNameLower = roomName.toLowerCase();
+                    if (!onlyRoomTargets.some((roomTarget) => roomNameLower.match(new RegExp(roomTarget)))) return false;
+                }
                 return true;
             };
 
@@ -173,7 +200,8 @@
             // Show special messages like reservations compulsory
             const getNoticeMsg = (talk) => {
                 noticeMsgArray = [];
-                if (talk.abstract.includes("Reservierung nötig / Reservation needed")) {
+                const abstract = talk.abstract || '';
+                if (abstract.includes("Reservierung nötig / Reservation needed")) {
                     noticeMsgArray.push(`Reservierungspflicht/Reservation compulsory`);
                 }
 
