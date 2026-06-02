@@ -124,7 +124,7 @@ tbody tr td { /* Eigenschaften der Zellen für die Spalten Nach Über und Gleis 
     overflow: hidden;
 }
 .column_time { /* Eigenschaften für die Spalte Zeit */
-    width: 115px;
+    width: 5px;
     padding-left: 8px !important;
 }
 .cell_time { /* Eigenschaften für eine Zelle in der Spalte Zeit */
@@ -183,19 +183,19 @@ tbody tr td { /* Eigenschaften der Zellen für die Spalten Nach Über und Gleis 
     font-size: 26px;
     font-weight: bold;
     text-align: right;
-    padding-right: 60px !important;
+    padding-right: 10px !important;
 }
 .tripMessage { /* Eigenschaften für die Abweichungsmeldungen in der Spalte Über */
     color: #FFFF00;
     font-size: 17px;
 }
 .column_to_from { /* Eigenschaften für die Spalte Von / Nach */
-    width: 45%;
+    width: 80px;
 }
 .column_track { /* Eigenschaften für die Spalte Gleis */
-    width: 70px;
+    width: 5px;
     text-align: right;
-    padding-right: 60px !important;
+    padding-right: 10px !important;
 }
 #additionalTextContainer { /* Eigenschaften für die Hinweismeldung und Großstörungsmeldung */
     background-color: #FFFFFF;
