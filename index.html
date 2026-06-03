@@ -23,7 +23,7 @@
             </span>
         </div>
         <div class="titleBarCenter">
-            <span class="eventType">Abfahrt</span>
+            <span class="eventType" id="eventType">Abfahrt</span>
             <span class="stationName">24. Gulaschprogrammiernacht</span>
         </div>
         <div class="titleBarClear"></div>
@@ -128,6 +128,7 @@
             // URL parameter parsing
             const params = new URLSearchParams(location.search);
             const onlyDayParam = params.get('only-day');
+            const titleParam = params.get('title');
             const onlyTrackTargets = params.getAll('only-track')
                 .flatMap((value) => value.split(','))
                 .map((value) => value.trim().toLowerCase())
@@ -143,6 +144,11 @@
             const departuresBody = document.getElementById('departures');
             const currentTimeEl = document.getElementById('currentTime');
             const footerText = document.getElementById('footerText');
+            const eventTypeEl = document.getElementById('eventType');
+
+            if (titleParam && eventTypeEl) {
+                eventTypeEl.textContent = titleParam;
+            }
 
             // Update clock
             const updateClock = () => {
