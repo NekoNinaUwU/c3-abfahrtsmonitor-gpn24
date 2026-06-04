@@ -192,6 +192,21 @@
                 const mins = toMinutes(hhmm);
                 return mins < 360 ? mins + (24 * 60) : mins;
             };
+            const toConferenceTimestamp = (dateStr, hhmm) => {
+                const mins = toMinutes(hhmm);
+                const [year, month, day] = (dateStr || '').split('-').map(Number);
+                if (!year || !month || !day) return NaN;
+
+                const date = new Date(year, month - 1, day, 0, 0, 0, 0);
+                date.setMinutes(mins);
+
+                // Talks after midnight (before 06:00) belong to the next calendar day.
+                if (mins < 360) {
+                    date.setDate(date.getDate() + 1);
+                }
+
+                return date.getTime();
+            };
 
             const abbreviateRoom = (roomName) => {
                 if (roomAbbrevMap[roomName]) return roomAbbrevMap[roomName];
@@ -302,7 +317,12 @@
                 footerText.textContent = `Tag ${selectedDay} - ${day}.${month}.${year}`;
             }
 
-            const allTalks = collectAndSortTalks(targetDays, !isSingleDay);
+            const nowTs = Date.now();
+            const allTalks = collectAndSortTalks(targetDays, !isSingleDay).filter((talk) => {
+                const startTs = toConferenceTimestamp(talk.dayDate, talk.start);
+                const endTs = startTs + (toMinutes(talk.duration) * 60 * 1000);
+                return Number.isFinite(endTs) && endTs > nowTs;
+            });
 
             if (!allTalks.length) {
                 showError('Keine Fahrten gefunden.');
